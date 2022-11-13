@@ -1,0 +1,57 @@
+spec:
+  name: bitpreco-arbitrage-bot
+  workers:
+  - environment_slug: node-js
+    git:
+      branch: main
+      repo_clone_url: https://github.com/lagoanova/bitPreco-trading-arbitrage.git
+    envs:
+    - key: API_KEY
+      scope: BUILD_TIME
+      value: "API KEY BITPREÇO"
+    - key: SIGNATURE
+      scope: BUILD_TIME
+      value: "SIGNATURE BITPREÇO"
+    - key: API_URL
+      scope: BUILD_TIME
+      value: "https://api.bitpreco.com/trading/"
+    - key: API_SIMULADOR
+      scope: BUILD_TIME
+      value: "http://api-simulator.bitpreco.com/trading/"
+    - key: TEST
+      scope: BUILD_TIME
+      value: "false"
+    - key: TEST_SIGNATURE
+      scope: BUILD_TIME
+      value: "TEST_SIGNATURE"
+    - key: TEST_API_KEY
+      scope: BUILD_TIME
+      value: "TEST_API_KEY"
+    - key: MARKET
+      scope: BUILD_TIME
+      value: "BTC-BRL"
+    - key: BOT_CHAT
+      scope: BUILD_TIME
+      value: "123456789"
+    - key: BOT_TOKEN
+      scope: BUILD_TIME
+      value: "3090896813:CCEl0fD5uV3clPfVxS9qV8KtwK6AaFCjgn3"
+    - key: AMOUNT
+      scope: BUILD_TIME
+      value: "30"
+    - key: INITIAL_DEPOSIT
+      scope: BUILD_TIME
+      value: "30"
+    - key: INITIAL_DATE
+      scope: BUILD_TIME
+      value: "08/11/2022"
+    - key: MIN_PROFIT_PERCENT
+      scope: BUILD_TIME
+      value: "0.09"
+    - key: DIFFERENCE_LOGGER
+      scope: BUILD_TIME
+      value: "true"
+    - key: INITIAL_SELL
+      scope: BUILD_TIME
+      value: "false"
+    name: bitpreco-arbitrage-bot
