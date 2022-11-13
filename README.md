@@ -2,7 +2,7 @@
 
 Fazer cadastro na [corretora BitPreço](https://bitpreco.com?r=241)
 
-[![Deploy to DO](https://mp-assets1.sfo2.digitaloceanspaces.com/deploy-to-do/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/ghostnetrn/bitPreco-arbitrage/tree/main&refcode=a076ff7a9a6a)
+[![Deploy to DO](https://mp-assets1.sfo2.digitaloceanspaces.com/deploy-to-do/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/lagoanova/bitPreco-trading-arbitrage/tree/main&refcode=a076ff7a9a6a)
 
 # Disclaimer
 
