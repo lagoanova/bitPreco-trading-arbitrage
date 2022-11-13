@@ -8,8 +8,6 @@ Fazer cadastro na [corretora BitPreço](https://bitpreco.com?r=241)
 
 Renomear o arquivo .env.example para .env e preencher conforme instruções:
 
-`
-
 - SIGNATURE: gerado na corretora bitpreço
 - API_KEY: gerado na corretora bitpreço
 - TEST: true ou false. Modo simulação: true
@@ -23,7 +21,6 @@ Renomear o arquivo .env.example para .env e preencher conforme instruções:
 - INITIAL_DATE: data inicial de execução do bot
 - MIN_PROFIT_PERCENT: Informe o lucro mínimo potencial, em percentual, para que o robô tente executar a arbitragem. Valor padrão: 0.09%
 - DIFFERENCE_LOGGER: exibir o log na tela
-  `
 
 # Instalação
 
