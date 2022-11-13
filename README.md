@@ -4,6 +4,14 @@ Fazer cadastro na [corretora BitPreço](https://bitpreco.com?r=241)
 
 [![Deploy to DO](https://mp-assets1.sfo2.digitaloceanspaces.com/deploy-to-do/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/lagoanova/bitPreco-trading-arbitrage/tree/main&refcode=a076ff7a9a6a)
 
+# Instalação
+
+Você pode fazer a instalação usando o botão acima, da DigitalOcean, ou manualmente seguindo os passos abaixo:
+
+- renomear o arquivo .env.example para .env
+- preencher os dados
+- executar com o comando `npm start`
+
 # Disclaimer
 
 Nenhum proprietário ou contribuidor é responsável por qualquer coisa feita com este bot. Você o usa por sua própria conta e risco. Não há garantias expressas ou implícitas. Você assume toda a responsabilidade e obrigação.

@@ -13,7 +13,6 @@
   "dependencies": {
     "axios": "^0.26.0",
     "axios-retry": "^3.3.1",
-    "bottleneck": "^2.19.5",
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.3",
     "envalid": "^7.3.1",
@@ -21,8 +20,6 @@
     "moment": "^2.29.4",
     "node-fetch": "^2.6.7",
     "phoenix-channels": "^1.0.0",
-    "request": "^2.88.2",
-    "telegraf": "^4.10.0",
-    "xmlhttprequest": "^1.8.0"
+    "telegraf": "^4.10.0"
   }
 }
