@@ -10,7 +10,8 @@ Você pode fazer a instalação usando o botão acima, da DigitalOcean, ou manua
 
 - renomear o arquivo .env.example para .env
 - preencher os dados
-- executar com o comando `npm start`
+- instalar com o comando `npm i`
+- executar com `npm start`
 
 # Disclaimer
 
