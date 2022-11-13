@@ -4,11 +4,31 @@ Fazer cadastro na [corretora BitPreço](https://bitpreco.com?r=241)
 
 [![Deploy to DO](https://mp-assets1.sfo2.digitaloceanspaces.com/deploy-to-do/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/lagoanova/bitPreco-trading-arbitrage/tree/main&refcode=a076ff7a9a6a)
 
+# Configuração das variáveis
+
+Renomear o arquivo .env.example para .env e preencher conforme instruções:
+
+`
+
+- SIGNATURE: gerado na corretora bitpreço
+- API_KEY: gerado na corretora bitpreço
+- TEST: true ou false. Modo simulação: true
+- TEST_SIGNATURE: gerado na corretora bitpreço (https://simulador.bitpreco.com/)
+- TEST_API_KEY: gerado na corretora bitpreço (https://simulador.bitpreco.com/)
+- MARKET: Os mercados disponníveis são: BTC-BRL | ETH-BRL | USDT-BRL
+- BOT_CHAT: código do chat do Telegram
+- BOT_TOKEN: https://t.me/BotFather
+- AMOUNT: valor em BRL
+- INITIAL_DEPOSIT: depósito inicial feito na corretora
+- INITIAL_DATE: data inicial de execução do bot
+- MIN_PROFIT_PERCENT: Informe o lucro mínimo potencial, em percentual, para que o robô tente executar a arbitragem. Valor padrão: 0.09%
+- DIFFERENCE_LOGGER: exibir o log na tela
+  `
+
 # Instalação
 
 Você pode fazer a instalação usando o botão acima, da DigitalOcean, ou manualmente seguindo os passos abaixo:
 
-- renomear o arquivo .env.example para .env
 - preencher os dados
 - instalar com o comando `npm i`
 - executar com `npm start`
