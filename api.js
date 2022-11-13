@@ -17,7 +17,6 @@ if (process.env.TEST.toLowerCase() === "true") {
 
 const auth_token = signature + api_key;
 
-
 async function ticker(market) {
   return new Promise((resolve, reject) => {
     (async () => {
@@ -65,7 +64,7 @@ function offer(type, market, price, volume, amount, limited = false) {
 function confirmOffer(orderId) {
   const options = {
     method: "POST",
-    url: `${url}`,
+    url,
     headers: {},
     formData: {
       cmd: "order_status",
@@ -92,7 +91,7 @@ function orderCancel(orderId) {
 
       var config = {
         method: "post",
-        url: "https://api.bitpreco.com/trading/",
+        url,
         headers: {
           ...data.getHeaders(),
         },
@@ -123,7 +122,7 @@ async function call(endpoint, params, method = "POST") {
 
       var config = {
         method: "post",
-        url: `${url}`,
+        url,
         headers: {
           ...data.getHeaders(),
         },
