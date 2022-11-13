@@ -160,7 +160,6 @@ async function checkOrderbook(payload) {
     const bestOrderBuy = asks[0];
 
     return { bestOrderSell, bestOrderBuy };
-    
   } catch (error) {
     console.log(error);
   }
@@ -172,8 +171,8 @@ const checkBalances = async () => {
     const { BRL, BTC, USDT, ETH } = balances;
     let priceBTC = await bitpreco.ticker("BTC-BRL");
     let priceUSDT = await bitpreco.ticker("USDT-BRL");
-    
-	// Pegando a data
+
+    // Pegando a data
     let data = initialDate;
 
     // Precisamos quebrar a string para retornar cada parte
@@ -240,20 +239,20 @@ async function start() {
     if (!BRL || !BTC || !ETH || !USDT) {
       await loadBalance();
     }
-    
+
     const { bestOrderBuy, bestOrderSell } = await checkOrderbook(payload);
 
     const maxAmount = Math.min(bestOrderBuy.amount, bestOrderSell.amount);
     const maxVolume = (maxAmount * bestOrderBuy.price).toFixed(2);
     let volume = amount;
-    
-	if (maxVolume < volume) {
+
+    if (maxVolume < volume) {
       volume = maxVolume - 1;
     }
-    
-	const profit = percent(bestOrderBuy.price, bestOrderSell.price);
-    
-	if (differencelogger) {
+
+    const profit = percent(bestOrderBuy.price, bestOrderSell.price);
+
+    if (differencelogger) {
       handleMessage(`📈 Variação de preço: ${profit.toFixed(2)}%`);
       handleMessage(`📈 Profit: ${minProfitPercent}`);
       handleMessage(
@@ -263,9 +262,9 @@ async function start() {
       handleMessage(`Test mode: ${test}`);
       differencelogger = false;
     }
-    
-	handleMessage(`📈 Variação de preço: ${profit.toFixed(2)}%`);
-	
+
+    handleMessage(`📈 Variação de preço: ${profit.toFixed(2)}%`);
+
     if (profit >= minProfitPercent && !test) {
       // buy
       try {
@@ -278,23 +277,23 @@ async function start() {
           "false"
         );
         handleMessage("Success on buy");
-        
-        BTC = buyOffer.exec_amount;
-        
+
+        const coinAmount = buyOffer.exec_amount;
+
         const isExecuted = buyOffer.message_cod === "ORDER_FULLY_EXECUTED";
 
         if (isExecuted) {
+          // sell
           const sellOffer = await bitpreco.offer(
             "sell",
             `${MARKET}`,
             "", // price
             "", // volume em reais
-            `${BTC}`, //amount
+            `${coinAmount}`, //amount
             "false"
           );
           handleMessage("Success on sell");
-          // console.log(sellOffer);
-          // process.exit(0);
+
           bot.telegram.sendMessage(
             BOT_CHAT,
             `\u{1F911} Sucesso! Lucro: ${profit.toFixed(2)}%\nBuy: ${
