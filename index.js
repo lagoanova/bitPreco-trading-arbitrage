@@ -231,7 +231,7 @@ async function start() {
   // Adicionamos um callback pro evento snapshot,
   // que vai receber versões completas e atualizadas do orderbook
   channel.on("snapshot", async (payload) => {
-    if (!BRL || !BTC || !ETH || !USDT) {
+    if (!BRL) {
       await loadBalance();
     }
 
