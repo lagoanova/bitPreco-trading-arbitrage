@@ -296,8 +296,10 @@ async function start() {
             }, Sell: ${bestOrderSell.price}`,
             keyboard
           );
+          await loadBalance();
         } else {
           const cancelOrder = await bitpreco.orderCancel(buyOffer.order_id);
+          await loadBalance();
         }
       } catch (error) {
         bot.telegram.sendMessage(
@@ -305,6 +307,7 @@ async function start() {
           `Error on buy: ${JSON.stringify(error.message)}`,
           keyboard
         );
+        await loadBalance();
         logger.error(error);
       }
     }
