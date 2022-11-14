@@ -1,19 +1,11 @@
-const axios = require("axios");
 const { Telegraf, Markup } = require("telegraf");
 const apiKeyCheck = process.env.API_KEY;
 const signatureCheck = process.env.SIGNATURE;
 const BOT_CHAT = process.env.BOT_CHAT;
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const bitpreco = require("./api");
-const Bottleneck = require("bottleneck");
 const logger = require("./logger");
 const { handleMessage, handleError, percent } = require("./utils");
-const limiter = new Bottleneck({
-  reservoir: 30,
-  reservoirRefreshAmount: 30,
-  reservoirRefreshInterval: 60 * 1000,
-  maxConcurrent: 1,
-});
 
 if (!apiKeyCheck || !signatureCheck) {
   console.log(`Crendentials not found!`);

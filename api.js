@@ -21,8 +21,9 @@ async function ticker(market) {
   return new Promise((resolve, reject) => {
     (async () => {
       try {
-        url = url.replace("trading/", "");
-        const ticker = await axios.get(`${url}${market.toLowerCase()}/ticker`);
+        const ticker = await axios.get(
+          `${url.replace("trading/", "")}${market.toLowerCase()}/ticker`
+        );
         resolve(ticker.data);
       } catch (error) {
         reject(error);
@@ -32,117 +33,70 @@ async function ticker(market) {
 }
 
 async function balance() {
-  let data = new FormData();
-  data.append("cmd", "balance");
-  data.append("auth_token", auth_token);
-  return new Promise((resolve, reject) => {
-    (async () => {
-      const config = {
-        method: "post",
-        url,
-        headers: {
-          ...data.getHeaders(),
-        },
-        data: data,
-      };
-      try {
-        const response = await axios(config);
-        resolve(response.data);
-      } catch (error) {
-        reject(error);
-      }
-    })();
-  });
+  return call("balance", null, "POST");
 }
 
 function offer(type, market, price, volume, amount, limited = false) {
-  return new Promise((resolve, reject) => {
-    resolve(call2(type, { market, price, volume, amount, limited }, "POST"));
-  });
-}
-
-function confirmOffer(orderId) {
-  const options = {
-    method: "POST",
-    url,
-    headers: {},
-    formData: {
-      cmd: "order_status",
-      auth_token: auth_token,
-      order_id: orderId,
-    },
-  };
-
-  return new Promise((resolve, reject) => {
-    request(options, function (error, response) {
-      if (error) reject(error);
-      resolve(JSON.parse(response.body));
-    });
-  });
+  return call(type, { market, price, volume, amount, limited }, "POST");
 }
 
 function orderCancel(orderId) {
-  return new Promise((resolve, reject) => {
-    (async () => {
-      let data = new FormData();
-      data.append("cmd", "order_cancel");
-      data.append("auth_token", `${auth_token}`);
-      data.append("order_id", `${orderId}`);
+  let data = new FormData();
+  data.append("cmd", "order_cancel");
+  data.append("auth_token", `${auth_token}`);
+  data.append("order_id", `${orderId}`);
 
-      var config = {
-        method: "post",
-        url,
-        headers: {
-          ...data.getHeaders(),
-        },
-        data: data,
-      };
+  var config = {
+    method: "post",
+    url,
+    headers: {
+      ...data.getHeaders(),
+    },
+    data,
+  };
 
-      try {
-        const response = await axios(config);
-        resolve(response.data);
-      } catch (error) {
-        reject(error);
-      }
-    })();
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await axios(config);
+      resolve(response.data);
+    } catch (error) {
+      reject(error);
+    }
   });
 }
 
 async function call(endpoint, params, method = "POST") {
-  return new Promise((resolve, reject) => {
-    (async () => {
-      let data = new FormData();
-      data.append("cmd", `${endpoint}`);
-      data.append("auth_token", `${auth_token}`);
-      data.append("market", `${params.market}`);
-      data.append("price", `${params.price}`);
-      data.append("volume", `${params.volume}`);
-      data.append("amount", `${params.amount}`);
-      data.append("limited", `${params.limited}`);
+  let data = new FormData();
+  data.append("cmd", endpoint);
+  data.append("auth_token", auth_token);
+  data.append("market", params?.market ?? "");
+  data.append("price", params?.price ?? "");
+  data.append("volume", params?.volume ?? "");
+  data.append("amount", params?.amount ?? "");
+  data.append("limited", params?.limited ?? "");
 
-      var config = {
-        method: "post",
-        url,
-        headers: {
-          ...data.getHeaders(),
-        },
-        data: data,
-      };
-      try {
-        const response = await axios(config);
-        resolve(response.data);
-      } catch (error) {
-        reject(error);
-      }
-    })();
+  var config = {
+    method: "post",
+    url,
+    headers: {
+      ...data.getHeaders(),
+    },
+    data,
+  };
+
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await axios(config);
+      resolve(response.data);
+    } catch (error) {
+      reject(error);
+    }
   });
 }
 
 module.exports = {
   ticker,
-  orderBook,
   balance,
   offer,
-  confirmOffer,
   orderCancel,
 };
