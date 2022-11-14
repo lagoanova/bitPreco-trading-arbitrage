@@ -26,7 +26,7 @@ Copiar o arquivo .env.example e gerar o .env:
 
 Você pode fazer a instalação usando o botão acima, da DigitalOcean, ou manualmente seguindo os passos abaixo:
 
-- preencher os dados
+- preencher os dados do .env
 - instalar com o comando `npm i`
 - executar com `npm start`
 
