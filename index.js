@@ -6,6 +6,7 @@ const BOT_CHAT = process.env.BOT_CHAT;
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const bitpreco = require("./api");
 const Bottleneck = require("bottleneck");
+const logger = require("./logger");
 const { handleMessage, handleError, percent } = require("./utils");
 const limiter = new Bottleneck({
   reservoir: 30,
@@ -47,6 +48,7 @@ socket.onOpen(() => {
 });
 socket.onError((e) => {
   console.log("Failed to connect to socket");
+  logger.error(e);
 });
 
 // Conecta no canal, passando o topic desejado
@@ -162,6 +164,7 @@ async function checkOrderbook(payload) {
     return { bestOrderSell, bestOrderBuy };
   } catch (error) {
     console.log(error);
+    logger.error(error);
   }
 }
 
@@ -277,7 +280,7 @@ async function start() {
           "false"
         );
         handleMessage("Success on buy");
-
+        logger.info("sucess on buy");
         const coinAmount = buyOffer.exec_amount;
 
         const isExecuted = buyOffer.message_cod === "ORDER_FULLY_EXECUTED";
@@ -293,7 +296,7 @@ async function start() {
             "false"
           );
           handleMessage("Success on sell");
-
+          logger.info("sucess on sell");
           bot.telegram.sendMessage(
             BOT_CHAT,
             `\u{1F911} Sucesso! Lucro: ${profit.toFixed(2)}%\nBuy: ${
@@ -310,6 +313,7 @@ async function start() {
           `Error on buy: ${JSON.stringify(error.message)}`,
           keyboard
         );
+        logger.error(error);
       }
     }
   });
