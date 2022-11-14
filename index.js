@@ -212,8 +212,8 @@ const checkBalances = async () => {
 <b>Dias ativado</b>: ${days}
 <b>Depósito inicial</b>: R$ ${initialDeposit.toFixed(2)}
 <b>Saldo BRL:</b> R$ ${BRL} 
-<b>Saldo USDT:</b> $ ${USDT} 
-<b>Saldo ETH:</b> ${ETH} 
+<b>Saldo USDT:</b> $ ${USDT} (R$ ${(coinsPrice["USDT"].last * USDT).toFixed(2)})
+<b>Saldo ETH:</b> ${ETH} (R$ ${(coinsPrice["ETH"].last * ETH).toFixed(2)})
 <b>Saldo BTC:</b> ${BTC} (R$ ${(coinsPrice["BTC"].last * BTC).toFixed(2)})
 <b>Profit (BRL + BTC + ETH + USDT):</b> ${realizedProfit.toFixed(2)}% (R$ ${(
         profitBRLBTC - initialDeposit
