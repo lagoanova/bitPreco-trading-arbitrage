@@ -42,7 +42,7 @@ Use por sua conta e risco!
 
 VOCÊ É RESPONSÁVEL POR QUAISQUER PERDAS QUE POSSAM SER RESULTANTES DO USO DO BOT!
 
-Se você não entende como o bot funciona, não deve usá-lo. Você é sempre bem-vindo para pedir ajuda ou obter mais informações sobre como funciona exatamente.
+Se você não entende como o bot funciona, não deve usá-lo. Você é sempre bem-vindo para [pedir ajuda](https://github.com/lagoanova/bitPreco-trading-arbitrage/issues) ou obter mais informações sobre como funciona exatamente.
 
 Não é recomendação de investimento!
 
