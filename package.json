@@ -1,7 +1,7 @@
 {
-  "name": "biscoint",
+  "name": "bitpreco",
   "version": "1.0.0",
-  "description": "",
+  "description": "bitPreco arbitrage",
   "main": "index.js",
   "scripts": {
     "start": "node -r dotenv/config index",

@@ -272,7 +272,6 @@ channel.on("snapshot", async (payload) => {
     );
     handleMessage(`📈 inititalSell: ${initialSell}`);
     handleMessage(`Test mode: ${test}`);
-    differencelogger = false;
   }
 
   handleMessage(`📈 Variação de preço: ${profit.toFixed(2)}%`);
