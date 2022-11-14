@@ -3,11 +3,12 @@ const axiosRetry = require("axios-retry");
 const FormData = require("form-data");
 let signature = process.env.SIGNATURE;
 let api_key = process.env.API_KEY;
+let test = process.env.TEST.toLowerCase() === "true";
 let url;
 
 axiosRetry(axios, { retries: 3 });
 
-if (process.env.TEST.toLowerCase() === "true") {
+if (test) {
   url = process.env.API_SIMULADOR;
   signature = process.env.TEST_SIGNATURE;
   api_key = process.env.TEST_API_KEY;
