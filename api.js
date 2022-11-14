@@ -12,8 +12,6 @@ if (test) {
   url = process.env.API_SIMULADOR;
   signature = process.env.TEST_SIGNATURE;
   api_key = process.env.TEST_API_KEY;
-} else {
-  url = process.env.API_URL;
 }
 
 const auth_token = signature + api_key;
