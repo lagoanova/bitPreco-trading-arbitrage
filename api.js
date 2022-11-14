@@ -4,7 +4,7 @@ const FormData = require("form-data");
 let signature = process.env.SIGNATURE;
 let api_key = process.env.API_KEY;
 let test = process.env.TEST.toLowerCase() === "true";
-let url;
+let url = process.env.API_URL;
 
 axiosRetry(axios, { retries: 3 });
 
