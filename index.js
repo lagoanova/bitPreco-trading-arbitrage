@@ -6,6 +6,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 const bitpreco = require("./api");
 const logger = require("./logger");
 const { handleMessage, handleError, percent } = require("./utils");
+const moment = require("moment");
 
 if (!apiKeyCheck || !signatureCheck) {
   console.log(`Crendentials not found!`);
@@ -248,6 +249,8 @@ async function start() {
 start().catch((e) => handleMessage(JSON.stringify(e), e));
 
 channel.on("snapshot", async (payload) => {
+  console.time(`[BitPreco BOT] [${moment().format()}] [info] - ⏱ Performance`);
+
   if (!BRL) {
     await loadBalance();
   }
@@ -266,15 +269,18 @@ channel.on("snapshot", async (payload) => {
 
   if (differencelogger) {
     handleMessage(`📈 Variação de preço: ${profit.toFixed(2)}%`);
-    handleMessage(`📈 Profit: ${minProfitPercent}`);
+    handleMessage(`🚥 Profit: ${minProfitPercent}`);
     handleMessage(
-      `📈 Saldo: BTC ${BTC} - BRL ${BRL} - USDT ${USDT} - ETH ${ETH}`
+      `💰 Saldo: BTC ${BTC} - BRL ${BRL} - USDT ${USDT} - ETH ${ETH}`
     );
-    handleMessage(`📈 inititalSell: ${initialSell}`);
-    handleMessage(`Test mode: ${test}`);
+    handleMessage(`⚠ inititalSell: ${initialSell}`);
+    handleMessage(`🚨 Test mode: ${test}`);
   }
 
   handleMessage(`📈 Variação de preço: ${profit.toFixed(2)}%`);
+  console.timeEnd(
+    `[BitPreco BOT] [${moment().format()}] [info] - ⏱ Performance`
+  );
 
   if (profit >= minProfitPercent && !test) {
     // buy
