@@ -162,10 +162,20 @@ async function checkOrderbook(payload) {
 
 const checkBalances = async () => {
   try {
-    balances = await bitpreco.balance();
-    const { BRL, BTC, USDT, ETH } = balances;
-    let priceBTC = await bitpreco.ticker("BTC-BRL");
-    let priceUSDT = await bitpreco.ticker("USDT-BRL");
+    const markets = ["BTC", "ETH", "USDT", "BRL"];
+    const coinList = await bitpreco.balance();
+    const coinsBalance = {};
+    const coinsPrice = [];
+
+    for (const [key, value] of Object.entries(coinList)) {
+      markets.includes(key) ? (coinsBalance[key] = value) : "";
+    }
+
+    for (const [key, value] of Object.entries(coinsBalance)) {
+      if (key !== "BRL") {
+        coinsPrice[key] = await bitpreco.ticker(`${key}-BRL`);
+      }
+    }
 
     // Pegando a data
     let data = initialDate;
@@ -185,7 +195,11 @@ const checkBalances = async () => {
     const days = Math.ceil(diff / (1000 * 60 * 60 * 24)); // Divide o total pelo total de milisegundos correspondentes a 1 dia. (1000 milisegundos = 1 segundo).
 
     // Cálculo do lucro
-    let profitBRLBTC = Number(BRL) + Number(priceBTC.last * BTC);
+    let profitBRLBTC =
+      Number(BRL) +
+      Number(coinsPrice["BTC"].last * BTC) +
+      Number(coinsPrice["ETH"].last * ETH) +
+      Number(coinsPrice["USDT"].last * USDT);
     let realizedProfit = percent(initialDeposit, profitBRLBTC);
 
     await bot.telegram.sendMessage(
@@ -199,10 +213,9 @@ const checkBalances = async () => {
 <b>Depósito inicial</b>: R$ ${initialDeposit.toFixed(2)}
 <b>Saldo BRL:</b> R$ ${BRL} 
 <b>Saldo USDT:</b> $ ${USDT} 
-<b>Saldo ETH:</b> $ ${ETH} 
-<b>Saldo BTC:</b> ${BTC} (R$ ${(priceBTC.last * BTC).toFixed(2)})
-<b>Operando com</b>: ${amount}
-<b>Profit (BRL + BTC):</b> ${realizedProfit.toFixed(2)}% (R$ ${(
+<b>Saldo ETH:</b> ${ETH} 
+<b>Saldo BTC:</b> ${BTC} (R$ ${(coinsPrice["BTC"].last * BTC).toFixed(2)})
+<b>Profit (BRL + BTC + ETH + USDT):</b> ${realizedProfit.toFixed(2)}% (R$ ${(
         profitBRLBTC - initialDeposit
       ).toFixed(2)});
 `,
