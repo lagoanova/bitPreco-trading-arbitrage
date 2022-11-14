@@ -6,7 +6,7 @@ Fazer cadastro na [corretora BitPreço](https://bitpreco.com?r=241)
 
 # Configuração das variáveis
 
-Renomear o arquivo .env.example para .env e preencher conforme instruções:
+Copiar o arquivo .env.example e gerar o .env:
 
 - SIGNATURE: gerado na corretora bitpreço
 - API_KEY: gerado na corretora bitpreço
