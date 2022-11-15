@@ -246,6 +246,116 @@ async function start() {
   }
 }
 
+async function tradeBuy(bestOrderBuy, bestOrderSell, volume) {
+  try {
+    const buyOffer = await bitpreco.offer(
+      "buy",
+      `${MARKET}`,
+      "", // price
+      `${volume}`, // volume
+      "", // amount
+      "false"
+    );
+    handleMessage("Success on buy");
+    logger.info("Success on buy");
+    const coinAmount = buyOffer.exec_amount;
+
+    const isExecuted = buyOffer.message_cod === "ORDER_FULLY_EXECUTED";
+
+    if (isExecuted) {
+      // sell
+      const sellOffer = await bitpreco.offer(
+        "sell",
+        `${MARKET}`,
+        "", // price
+        "", // volume em reais
+        `${coinAmount}`, //amount
+        "false"
+      );
+      handleMessage("Success on sell");
+      logger.info("Success on sell");
+      bot.telegram.sendMessage(
+        BOT_CHAT,
+        `\u{1F911} Sucesso! Lucro: ${profit.toFixed(2)}%\nBuy: ${
+          bestOrderBuy.price
+        }, Sell: ${bestOrderSell.price}`,
+        keyboard
+      );
+      await loadBalance();
+    } else {
+      const cancelOrder = await bitpreco.orderCancel(buyOffer.order_id);
+      await loadBalance();
+    }
+  } catch (error) {
+    bot.telegram.sendMessage(
+      BOT_CHAT,
+      `Error on buy: ${JSON.stringify(error.message)}`,
+      keyboard
+    );
+    if (error.message_cod === "NOT_ENOUGH_USER_BALANCE") {
+      initialSell = !initialSell;
+      handleMessage("Switched to first sell");
+      await loadBalance(); // adjust amount
+    }
+    logger.error(error);
+  }
+}
+
+async function tradeSell(bestOrderBuy, bestOrderSell, volume) {
+  try {
+    const sellOffer = await bitpreco.offer(
+      "sell",
+      `${MARKET}`,
+      "", // price
+      "", // volume
+      `${volume}`, // amount
+      "false"
+    );
+    handleMessage("Success on sell");
+    logger.info("Success on sell");
+
+    const coinAmount = sellOffer.exec_amount * sellOffer.price * 0.95;
+    const isExecuted = sellOffer.message_cod === "ORDER_FULLY_EXECUTED";
+
+    if (isExecuted) {
+      // buy
+      const buyOffer = await bitpreco.offer(
+        "buy",
+        `${MARKET}`,
+        "", // price
+        `${coinAmount}`, // volume em reais
+        "", //amount
+        "false"
+      );
+      handleMessage("Success on buy");
+      logger.info("Success on buy");
+      bot.telegram.sendMessage(
+        BOT_CHAT,
+        `\u{1F911} Sucesso! Lucro: ${profit.toFixed(2)}%\nBuy: ${
+          bestOrderBuy.price
+        }, Sell: ${bestOrderSell.price}`,
+        keyboard
+      );
+      await loadBalance();
+    } else {
+      const cancelOrder = await bitpreco.orderCancel(sellOffer.order_id);
+      await loadBalance();
+    }
+  } catch (error) {
+    bot.telegram.sendMessage(
+      BOT_CHAT,
+      `Error on sell: ${JSON.stringify(error.message)}`,
+      keyboard
+    );
+    if (error.message_cod === "NOT_ENOUGH_USER_BALANCE") {
+      initialSell = !initialSell;
+      handleMessage("Switched to first sell");
+      await loadBalance(); // adjust amount
+    }
+    logger.error(error);
+  }
+}
+
 start().catch((e) => handleMessage(JSON.stringify(e), e));
 
 channel.on("snapshot", async (payload) => {
@@ -256,14 +366,6 @@ channel.on("snapshot", async (payload) => {
   }
 
   const { bestOrderBuy, bestOrderSell } = await checkOrderbook(payload);
-
-  const maxAmount = Math.min(bestOrderBuy.amount, bestOrderSell.amount);
-  const maxVolume = (maxAmount * bestOrderBuy.price).toFixed(2);
-  let volume = amount;
-
-  if (maxVolume < volume) {
-    volume = maxVolume - 1;
-  }
 
   const profit = percent(bestOrderBuy.price, bestOrderSell.price);
 
@@ -283,54 +385,23 @@ channel.on("snapshot", async (payload) => {
   );
 
   if (profit >= minProfitPercent && !test) {
-    // buy
-    try {
-      const buyOffer = await bitpreco.offer(
-        "buy",
-        `${MARKET}`,
-        "", // price
-        `${volume}`, // volume
-        "", // amount
-        "false"
-      );
-      handleMessage("Success on buy");
-      logger.info("sucess on buy");
-      const coinAmount = buyOffer.exec_amount;
-
-      const isExecuted = buyOffer.message_cod === "ORDER_FULLY_EXECUTED";
-
-      if (isExecuted) {
-        // sell
-        const sellOffer = await bitpreco.offer(
-          "sell",
-          `${MARKET}`,
-          "", // price
-          "", // volume em reais
-          `${coinAmount}`, //amount
-          "false"
-        );
-        handleMessage("Success on sell");
-        logger.info("sucess on sell");
-        bot.telegram.sendMessage(
-          BOT_CHAT,
-          `\u{1F911} Sucesso! Lucro: ${profit.toFixed(2)}%\nBuy: ${
-            bestOrderBuy.price
-          }, Sell: ${bestOrderSell.price}`,
-          keyboard
-        );
-        await loadBalance();
-      } else {
-        const cancelOrder = await bitpreco.orderCancel(buyOffer.order_id);
-        await loadBalance();
+    if (initialSell) {
+      /* initial sell */
+      const coin = MARKET.split("-")[0];
+      try {
+        await tradeSell(bestOrderBuy, bestOrderSell, coin);
+      } catch (error) {
+        handleError(error);
+        logger.error(error);
       }
-    } catch (error) {
-      bot.telegram.sendMessage(
-        BOT_CHAT,
-        `Error on buy: ${JSON.stringify(error.message)}`,
-        keyboard
-      );
-      await loadBalance();
-      logger.error(error);
+    } else {
+      /* initial buy */
+      try {
+        await tradeBuy(bestOrderBuy, bestOrderSell, BRL);
+      } catch (error) {
+        handleError(error);
+        logger.error(error);
+      }
     }
   }
 });
