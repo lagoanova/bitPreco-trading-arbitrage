@@ -359,6 +359,7 @@ async function tradeSell(bestOrderBuy, bestOrderSell, volume) {
 start().catch((e) => handleMessage(JSON.stringify(e), e));
 
 const labelPerformance = `[BitPreco BOT] [${moment().format()}] [info] - ⏱ Performance`;
+
 channel.on("snapshot", async (payload) => {
   if (!BRL) {
     await loadBalance();
@@ -382,12 +383,14 @@ channel.on("snapshot", async (payload) => {
 
   handleMessage(`📈 Variação de preço: ${profit.toFixed(2)}%`);
 
-  console.timeEnd(labelPerformance);
-
   if (profit >= minProfitPercent && !test) {
     if (initialSell) {
       /* initial sell */
-      const coin = MARKET.split("-")[0];
+      await loadBalance();
+      let coin = MARKET.split("-")[0];
+      if (coin === "BTC") coin = BTC;
+      if (coin === "ETH") coin = ETH;
+      if (coin === "USDT") coin = USDT;
       try {
         await tradeSell(bestOrderBuy, bestOrderSell, coin);
       } catch (error) {
@@ -396,14 +399,17 @@ channel.on("snapshot", async (payload) => {
       }
     } else {
       /* initial buy */
+      await loadBalance();
       try {
         await tradeBuy(bestOrderBuy, bestOrderSell, BRL);
+        process.exit(0);
       } catch (error) {
         handleError(error);
         logger.error(error);
       }
     }
   }
+  console.timeEnd(labelPerformance);
 });
 
 bot.launch();
