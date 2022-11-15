@@ -380,6 +380,7 @@ channel.on("snapshot", async (payload) => {
   }
 
   handleMessage(`📈 Variação de preço: ${profit.toFixed(2)}%`);
+
   console.timeEnd(
     `[BitPreco BOT] [${moment().format()}] [info] - ⏱ Performance`
   );
