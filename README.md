@@ -31,6 +31,22 @@ Você pode fazer a instalação usando o botão acima, da DigitalOcean, ou manua
 - instalar com o comando `npm i`
 - executar com `npm start`
 
+## Docker
+
+Execute o seguinte comando para subir a aplicação:
+`docker-compose -f docker-compose.yml up -d`
+
+Após alterar uma configuração, execute:
+`docker-compose -f docker-compose.yml down`
+`docker-compose -f docker-compose.yml up -d`
+
+Para verificar se deu certo, execute o seguinte comando:
+`docker-compose -f docker-compose.yml ps -a`
+
+Para visualizar o log do container, execute:
+Listar os container com `docker container ls`
+Visualizar o log do container com `docker container logs -f container_id`
+
 # Disclaimer
 
 Nenhum proprietário ou contribuidor é responsável por qualquer coisa feita com este bot. Você o usa por sua própria conta e risco. Não há garantias expressas ou implícitas. Você assume toda a responsabilidade e obrigação.
