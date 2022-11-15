@@ -33,19 +33,25 @@ Você pode fazer a instalação usando o botão acima, da DigitalOcean, ou manua
 
 ## Docker
 
-Execute o seguinte comando para subir a aplicação:
-`docker-compose -f docker-compose.yml up -d`
+**Execute o seguinte comando para subir a aplicação:**
 
-Após alterar uma configuração, execute:
-`docker-compose -f docker-compose.yml down`
-`docker-compose -f docker-compose.yml up -d`
+    docker-compose -f docker-compose.yml up -d
 
-Para verificar se deu certo, execute o seguinte comando:
-`docker-compose -f docker-compose.yml ps -a`
+**Após alterar uma configuração, execute:**
+
+    docker-compose -f docker-compose.yml down
+
+    docker-compose -f docker-compose.yml up -d
+
+**Para verificar se deu certo, execute o seguinte comando:**
+
+    docker-compose -f docker-compose.yml ps -a
 
 Para visualizar o log do container, execute:
-Listar os container com `docker container ls`
-Visualizar o log do container com `docker container logs -f container_id`
+
+- Listar os container com `docker container ls`
+- Visualizar o log do container com
+- `docker container logs -f container_id`
 
 # Disclaimer
 
