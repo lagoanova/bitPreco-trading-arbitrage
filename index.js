@@ -358,12 +358,13 @@ async function tradeSell(bestOrderBuy, bestOrderSell, volume) {
 
 start().catch((e) => handleMessage(JSON.stringify(e), e));
 
+const labelPerformance = `[BitPreco BOT] [${moment().format()}] [info] - ⏱ Performance`;
 channel.on("snapshot", async (payload) => {
-  console.time(`[BitPreco BOT] [${moment().format()}] [info] - ⏱ Performance`);
-
   if (!BRL) {
     await loadBalance();
   }
+
+  console.time(labelPerformance);
 
   const { bestOrderBuy, bestOrderSell } = await checkOrderbook(payload);
 
@@ -381,9 +382,7 @@ channel.on("snapshot", async (payload) => {
 
   handleMessage(`📈 Variação de preço: ${profit.toFixed(2)}%`);
 
-  console.timeEnd(
-    `[BitPreco BOT] [${moment().format()}] [info] - ⏱ Performance`
-  );
+  console.timeEnd(labelPerformance);
 
   if (profit >= minProfitPercent && !test) {
     if (initialSell) {
