@@ -50,8 +50,7 @@ Você pode fazer a instalação usando o botão acima, da DigitalOcean, ou manua
 Para visualizar o log do container, execute:
 
 - Listar os container com `docker container ls`
-- Visualizar o log do container com
-- `docker container logs -f container_id`
+- Visualizar o log do container com `docker container logs -f container_id`
 
 # Disclaimer
 
