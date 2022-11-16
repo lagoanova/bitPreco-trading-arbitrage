@@ -144,6 +144,8 @@ async function loadBalance() {
   BTC = result.BTC;
   USDT = result.USDT;
   ETH = result.ETH;
+
+  initialSell = BTC > 0;
 }
 
 async function checkOrderbook(payload) {
@@ -246,7 +248,7 @@ async function start() {
   }
 }
 
-async function tradeBuy(bestOrderBuy, bestOrderSell, volume) {
+async function tradeBuy(profit, bestOrderBuy, bestOrderSell, volume) {
   try {
     const buyOffer = await bitpreco.offer(
       "buy",
@@ -256,14 +258,15 @@ async function tradeBuy(bestOrderBuy, bestOrderSell, volume) {
       "", // amount
       "false"
     );
-    handleMessage("Success on buy");
-    logger.info("Success on buy");
-    const coinAmount = buyOffer.exec_amount;
 
+    const coinAmount = buyOffer.exec_amount * 0.95;
     const isExecuted = buyOffer.message_cod === "ORDER_FULLY_EXECUTED";
 
     if (isExecuted) {
       // sell
+      handleMessage("Success on buy");
+      logger.info("Success on buy");
+
       const sellOffer = await bitpreco.offer(
         "sell",
         `${MARKET}`,
@@ -272,15 +275,20 @@ async function tradeBuy(bestOrderBuy, bestOrderSell, volume) {
         `${coinAmount}`, //amount
         "false"
       );
-      handleMessage("Success on sell");
-      logger.info("Success on sell");
-      bot.telegram.sendMessage(
-        BOT_CHAT,
-        `\u{1F911} Sucesso! Lucro: ${profit.toFixed(2)}%\nBuy: ${
-          bestOrderBuy.price
-        }, Sell: ${bestOrderSell.price}`,
-        keyboard
-      );
+
+      const isSellExecuted = sellOffer.message_cod === "ORDER_FULLY_EXECUTED";
+
+      if (isSellExecuted) {
+        handleMessage("Success on sell");
+        logger.info("Success on sell");
+        bot.telegram.sendMessage(
+          BOT_CHAT,
+          `\u{1F911} Sucesso! Lucro: ${profit.toFixed(2)}%\nBuy: ${
+            bestOrderBuy.price
+          }, Sell: ${bestOrderSell.price}`,
+          keyboard
+        );
+      }
       await loadBalance();
     } else {
       const cancelOrder = await bitpreco.orderCancel(buyOffer.order_id);
@@ -301,7 +309,7 @@ async function tradeBuy(bestOrderBuy, bestOrderSell, volume) {
   }
 }
 
-async function tradeSell(bestOrderBuy, bestOrderSell, volume) {
+async function tradeSell(profit, bestOrderBuy, bestOrderSell, volume) {
   try {
     const sellOffer = await bitpreco.offer(
       "sell",
@@ -327,15 +335,20 @@ async function tradeSell(bestOrderBuy, bestOrderSell, volume) {
         "", //amount
         "false"
       );
-      handleMessage("Success on buy");
-      logger.info("Success on buy");
-      bot.telegram.sendMessage(
-        BOT_CHAT,
-        `\u{1F911} Sucesso! Lucro: ${profit.toFixed(2)}%\nBuy: ${
-          bestOrderBuy.price
-        }, Sell: ${bestOrderSell.price}`,
-        keyboard
-      );
+
+      const isBuyExecuted = buyOffer.message_cod === "ORDER_FULLY_EXECUTED";
+
+      if (isBuyExecuted) {
+        handleMessage("Success on buy");
+        logger.info("Success on buy");
+        bot.telegram.sendMessage(
+          BOT_CHAT,
+          `\u{1F911} Sucesso! Lucro: ${profit.toFixed(2)}%\nBuy: ${
+            bestOrderBuy.price
+          }, Sell: ${bestOrderSell.price}`,
+          keyboard
+        );
+      }
       await loadBalance();
     } else {
       const cancelOrder = await bitpreco.orderCancel(sellOffer.order_id);
@@ -383,6 +396,8 @@ channel.on("snapshot", async (payload) => {
 
   handleMessage(`📈 Variação de preço: ${profit.toFixed(2)}%`);
 
+  console.timeEnd(labelPerformance);
+
   if (profit >= minProfitPercent && !test) {
     if (initialSell) {
       /* initial sell */
@@ -392,7 +407,7 @@ channel.on("snapshot", async (payload) => {
       if (coin === "ETH") coin = ETH;
       if (coin === "USDT") coin = USDT;
       try {
-        await tradeSell(bestOrderBuy, bestOrderSell, coin);
+        await tradeSell(profit, bestOrderBuy, bestOrderSell, coin);
       } catch (error) {
         handleError(error);
         logger.error(error);
@@ -401,7 +416,7 @@ channel.on("snapshot", async (payload) => {
       /* initial buy */
       await loadBalance();
       try {
-        await tradeBuy(bestOrderBuy, bestOrderSell, BRL);
+        await tradeBuy(profit, bestOrderBuy, bestOrderSell, BRL);
         process.exit(0);
       } catch (error) {
         handleError(error);
@@ -409,7 +424,6 @@ channel.on("snapshot", async (payload) => {
       }
     }
   }
-  console.timeEnd(labelPerformance);
 });
 
 bot.launch();
