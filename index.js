@@ -145,7 +145,20 @@ async function loadBalance() {
   USDT = result.USDT;
   ETH = result.ETH;
 
-  initialSell = BTC > 0;
+  const { last } = await bitpreco.ticker(MARKET);
+  const coin = MARKET.split("-")[0];
+
+  if (coin === "BTC") {
+    initialSell = BTC > BRL / last;
+  }
+
+  if (coin === "ETH") {
+    initialSell = ETH > BRL / last;
+  }
+
+  if (coin === "USDT") {
+    initialSell = USDT > BRL / last;
+  }
 }
 
 async function checkOrderbook(payload) {
