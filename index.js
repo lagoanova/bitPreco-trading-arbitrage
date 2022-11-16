@@ -390,7 +390,7 @@ channel.on("snapshot", async (payload) => {
   if (!BRL) {
     await loadBalance();
   }
-  console.log("TESTE TESTE TESTE");
+
   console.time(labelPerformance);
 
   const { bestOrderBuy, bestOrderSell } = await checkOrderbook(payload);
