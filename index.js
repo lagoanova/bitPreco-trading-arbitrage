@@ -404,7 +404,7 @@ channel.on("snapshot", async (payload) => {
       `💰 Saldo: BTC ${BTC} - BRL ${BRL} - USDT ${USDT} - ETH ${ETH}`
     );
     handleMessage(`⚠ inititalSell: ${initialSell}`);
-    handleMessage(`🚨 Test mode: ${test}`);
+    handleMessage(`🚨 Modo simulação: ${test}`);
   }
 
   handleMessage(`📈 Variação de preço: ${profit.toFixed(2)}%`);
