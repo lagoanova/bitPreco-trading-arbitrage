@@ -8,6 +8,6 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./bitPreco-trading-arbitrage:/home/node/app/
+      - .:/home/node/app/
     env_file: .env
     restart: unless-stopped
