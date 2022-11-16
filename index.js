@@ -430,7 +430,7 @@ channel.on("snapshot", async (payload) => {
       await loadBalance();
       try {
         await tradeBuy(profit, bestOrderBuy, bestOrderSell, BRL);
-        process.exit(0);
+        // process.exit(0);
       } catch (error) {
         handleError(error);
         logger.error(error);
