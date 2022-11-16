@@ -10,5 +10,6 @@ services:
     working_dir: /home/node/app
     volumes:
           - .:/home/node/app/
+          - ./log:/home/node/app/log
     env_file: .env
     restart: unless-stopped
