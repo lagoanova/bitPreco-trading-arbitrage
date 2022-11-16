@@ -8,6 +8,6 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./:/home/node/app/:rw
+      - ./:/home/node/app/
     env_file: .env
     restart: unless-stopped
