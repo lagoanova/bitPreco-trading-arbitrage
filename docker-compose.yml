@@ -7,7 +7,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    working_dir: ./
+    working_dir: /
     volumes:
           - .:/home/node/app/
     env_file: .env
