@@ -7,5 +7,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    working_dir: /home/node/app
+    volumes:
+          - .:/home/node/app/
+          - ./node_modules:/home/node/app/node_modules
     env_file: .env
     restart: unless-stopped

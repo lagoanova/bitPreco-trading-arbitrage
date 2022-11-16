@@ -18,5 +18,5 @@ WORKDIR /home/node/app
 # copy production node_modules
 USER node
 COPY --chown=node:node  --from=build  /home/node/app/node_modules ./node_modules
-EXPOSE 3001/tcp
+# EXPOSE 3001/tcp
 CMD ["npm", "start"]
