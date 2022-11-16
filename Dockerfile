@@ -9,8 +9,12 @@ RUN apk add --no-cache --virtual .gyp \
   python3 \
   make \
   g++ \
+  tzdata \
   && npm install \
+  && npm install -g nodemon \
   && apk del .gyp
+ENV TZ="America/Recife"
+RUN rm -rf /var/cache/apk/*
 USER node
 
 FROM build AS release
@@ -18,5 +22,4 @@ WORKDIR /home/node/app
 # copy production node_modules
 USER node
 COPY --chown=node:node  --from=build  /home/node/app/node_modules ./node_modules
-# EXPOSE 3001/tcp
 CMD ["npm", "start"]
