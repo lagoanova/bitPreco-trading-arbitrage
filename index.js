@@ -405,6 +405,7 @@ channel.on("snapshot", async (payload) => {
     );
     handleMessage(`⚠ inititalSell: ${initialSell}`);
     handleMessage(`🚨 Test mode: ${test}`);
+    handleMessage(`🚨 TESTE: 3`);
   }
 
   handleMessage(`📈 Variação de preço: ${profit.toFixed(2)}%`);
