@@ -2,7 +2,7 @@ version: '3'
 
 services:
   bitpreco-arbitrage:
-    image: bitpreco-arbitrage
+    image: bitpreco-arbitrage:latest
     container_name: bitpreco-arbitrage
     build:
       context: .
@@ -10,6 +10,5 @@ services:
     working_dir: /home/node/app
     volumes:
           - .:/home/node/app/
-          - ./log:/home/node/app/log
     env_file: .env
     restart: unless-stopped
