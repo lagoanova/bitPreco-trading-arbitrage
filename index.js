@@ -272,11 +272,16 @@ async function tradeBuy(profit, bestOrderBuy, bestOrderSell, volume) {
       "false"
     );
 
-    const coinAmount = buyOffer.exec_amount * 0.95;
+    // const coinAmount = buyOffer.exec_amount * 0.95;
     const isExecuted = buyOffer.message_cod === "ORDER_FULLY_EXECUTED";
 
     if (isExecuted) {
       // sell
+      const result = await bitpreco.balance();
+      let coinAmount = MARKET.split("-")[0];
+      if (coinAmount === "BTC") coinAmount = result.BTC;
+      if (coinAmount === "ETH") coinAmount = result.ETH;
+      if (coinAmount === "USDT") coinAmount = result.USDT;
       handleMessage("Success on buy");
       logger.info("Success on buy");
 
@@ -335,16 +340,18 @@ async function tradeSell(profit, bestOrderBuy, bestOrderSell, volume) {
     handleMessage("Success on sell");
     logger.info("Success on sell");
 
-    const coinAmount = sellOffer.exec_amount * sellOffer.price * 0.95;
+    // const coinAmount = sellOffer.exec_amount * sellOffer.price * 0.95;
     const isExecuted = sellOffer.message_cod === "ORDER_FULLY_EXECUTED";
 
     if (isExecuted) {
       // buy
+      const result = await bitpreco.balance();
+
       const buyOffer = await bitpreco.offer(
         "buy",
         `${MARKET}`,
         "", // price
-        `${coinAmount}`, // volume em reais
+        `${result.BRL}`, // volume em reais
         "", //amount
         "false"
       );
