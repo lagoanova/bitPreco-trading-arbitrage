@@ -4,6 +4,16 @@ Fazer cadastro na [corretora BitPreço](https://bitpreco.com?r=241)
 
 [![Deploy to DO](https://mp-assets1.sfo2.digitaloceanspaces.com/deploy-to-do/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/lagoanova/bitPreco-trading-arbitrage/tree/main&refcode=a076ff7a9a6a)
 
+# Como funciona?
+
+O robô verifica a existência de oportunidades de arbitragem e tenta executá-las.
+
+A Bitpreço conecta você a várias corretoras. É normal que durante movimentos naturais do mercado o preço de compra em uma corretora seja mais barato que o preço de venda em outra, gerando assim uma oportunidade de fazer o que chamamos de arbitragem.
+
+Arbitragem é a ação de comprar mais barato em uma corretora e vender mais caro em outra. Descontando as taxas essa movimentação, deve resultar em lucro para o operador.
+
+Tendo em vista a facilidade em se conectar a várias corretoras e utilizando a API de negociações da Bitpreço, escrevi esse código para exemplificar o uso em NodeJS.
+
 # Configuração das variáveis
 
 Copiar o arquivo .env.example e gerar o .env:
