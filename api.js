@@ -1,4 +1,3 @@
-dotenv.config({ path: path.join(__dirname, "./.env") });
 const axios = require("axios");
 const axiosRetry = require("axios-retry");
 const FormData = require("form-data");

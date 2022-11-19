@@ -1,3 +1,4 @@
+dotenv.config({ path: path.join(__dirname, "./.env") });
 const { Telegraf, Markup } = require("telegraf");
 const apiKeyCheck = process.env.API_KEY;
 const signatureCheck = process.env.SIGNATURE;
