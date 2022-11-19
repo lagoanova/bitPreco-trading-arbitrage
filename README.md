@@ -52,6 +52,22 @@ Para visualizar o log do container, execute:
 - Listar os container com `docker container ls`
 - Visualizar o log do container com `docker container logs -f container_id`
 
+## PM2
+
+**Execute o seguinte comando para subir a aplicação:**
+
+    pm2 start ecosystem.config.js
+
+**Execute o seguinte comando para listar a aplicação:**
+
+    pm2 start ecosystem.config.js
+
+**Execute o seguinte comando para parar a aplicação:**
+
+    pm2 delete all
+
+Mais informações em https://pm2.keymetrics.io/docs/usage/quick-start/
+
 # Disclaimer
 
 Nenhum proprietário ou contribuidor é responsável por qualquer coisa feita com este bot. Você o usa por sua própria conta e risco. Não há garantias expressas ou implícitas. Você assume toda a responsabilidade e obrigação.
