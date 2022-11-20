@@ -30,7 +30,7 @@ Copiar o arquivo .env.example e gerar o .env:
 - INITIAL_DEPOSIT: depósito inicial feito na corretora
 - INITIAL_DATE: data inicial de execução do bot
 - INITIAL_SELL: informe `true` para que o robô execute primeiro venda e depois compra, `false` para que execute primeiro compra e depois venda. Se o seu saldo está em reais, use `false`, se esta em BTC ou ETH, use `true`.
-- MIN_PROFIT_PERCENT: Informe o lucro mínimo potencial, em percentual, para que o robô tente executar a arbitragem. Valor padrão: 0.09%
+- MIN_PROFIT_PERCENT: Informe o lucro mínimo potencial, em percentual, para que o robô tente executar a arbitragem. Valor padrão: 0.6%
 - DIFFERENCE_LOGGER: exibir o log na tela
 
 # Instalação
@@ -70,7 +70,7 @@ Para visualizar o log do container, execute:
 
 **Execute o seguinte comando para listar a aplicação:**
 
-    pm2 start ecosystem.config.js
+    pm2 ls
 
 **Execute o seguinte comando para parar a aplicação:**
 
