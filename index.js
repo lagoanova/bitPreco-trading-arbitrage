@@ -255,7 +255,7 @@ const checkBalances = async () => {
 
 async function start() {
   handleMessage("Starting trades");
-  bot.telegram.sendMessage(BOT_CHAT, "\u{1F911} Iniciando trades!", keyboard);
+  //bot.telegram.sendMessage(BOT_CHAT, "\u{1F911} Iniciando trades!", keyboard);
   if (!BRL) {
     await loadBalance();
   }
