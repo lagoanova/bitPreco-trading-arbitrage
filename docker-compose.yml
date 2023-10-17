@@ -10,4 +10,6 @@ services:
     volumes:
       - .:/usr/app
     env_file: .env
+    logging:
+      driver: none
     restart: unless-stopped
